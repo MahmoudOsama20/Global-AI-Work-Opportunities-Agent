@@ -108,3 +108,4 @@ To prevent false-positive recommendations for management roles (such as the 90.2
 2. **Inspection**: The dashboard displays the extracted headline, calculated years of experience, classified seniority level, parsed projects, and attributed skill evidence tags.
 3. **Edit & Confirm**: The user can modify any field (e.g. adjusting years of experience or adding missing skills).
 4. **Approve**: Clicking "Approve Profile" sets `approved = True`. Future searches and ranking evaluations will automatically use this verified profile.
+

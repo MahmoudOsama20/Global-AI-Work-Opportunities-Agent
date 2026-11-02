@@ -92,3 +92,4 @@ class CVRepository:
             self.session.delete(item)
         self.session.commit()
         return count
+

@@ -93,3 +93,4 @@ def delete_all_cv_data(db: Session = Depends(get_db)):
     repo = CVRepository(db)
     count = repo.delete_all()
     return {"status": "success", "deleted_profiles": count}
+

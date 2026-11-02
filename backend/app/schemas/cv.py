@@ -85,3 +85,4 @@ class CVProfileRead(CVProfileBase):
     uploaded_at: datetime
     created_at: datetime
     updated_at: datetime
+

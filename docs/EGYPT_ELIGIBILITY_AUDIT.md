@@ -83,3 +83,4 @@ The `CountryEligibilityEvaluator` in `backend/app/intelligence/eligibility.py` i
 2. **Worldwide Whitelist Check**: Scans for: `\b(anywhere\s+in\s+the\s+world|worldwide|global|work\s+from\s+anywhere|remote\s+internationally|all\s+locations)\b`.
 3. **Direct Egypt Match**: Scans for: `\b(egypt|cairo|alexandria|middle\s+east|mena|north\s+africa)\b`.
 4. **Payout Channel Matching**: Verifies whether the listing mentions supported payment rails (Payoneer, Deel, PayPal, Wire).
+

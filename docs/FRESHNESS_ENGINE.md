@@ -92,3 +92,4 @@ GET /api/opportunities?freshness=24h&include_unknown_dates=false
 - **Internal Storage & Calculations**: 100% timezone-aware UTC (`datetime.now(timezone.utc)`).
 - **Display Layer**: Formatted in `Africa/Cairo` (UTC+2 / UTC+3 DST aware).
 - **Naive Datetime Elimination**: Naive datetimes are automatically cast to UTC on ingestion to avoid comparison runtime crashes.
+

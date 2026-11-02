@@ -155,3 +155,4 @@ def test_human_readable_freshness_strings():
     assert human_readable_freshness(now - timedelta(minutes=15), now=now) == "15 mins ago"
     assert human_readable_freshness(now - timedelta(hours=4), now=now) == "4 hours ago"
     assert human_readable_freshness(now - timedelta(days=3), now=now) == "3 days ago"
+
