@@ -82,3 +82,4 @@ def get_search_provider() -> BaseSearchProvider:
     if provider_type == "duckduckgo":
         return DuckDuckGoSearchProvider()
     return DuckDuckGoSearchProvider()
+

@@ -19,3 +19,4 @@ def test_canonicalize_url():
     # Trailing slash normalization
     url2 = "https://example.com/jobs/ai-engineer/"
     assert canonicalize_url(url2) == "https://example.com/jobs/ai-engineer"
+

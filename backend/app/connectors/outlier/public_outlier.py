@@ -71,6 +71,7 @@ class OutlierPublicConnector(BaseConnector):
                     "description": clean_desc,
                     "url": job.get("absolute_url") or f"https://boards.greenhouse.io/scaleai/jobs/{job.get('id')}",
                     "location": job.get("location", {}).get("name", "Remote - Global"),
+                    "posted_at": job.get("updated_at"),
                     "category": "ai_training_and_evaluation",
                     "payment_methods": ["paypal", "airtm", "wire_transfer"],
                 }

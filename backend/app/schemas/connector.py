@@ -22,3 +22,4 @@ class ConnectorResult(BaseModel):
     error_message: Optional[str] = None
     execution_time_seconds: float = 0.0
     telemetry: Dict[str, Any] = Field(default_factory=dict)
+

@@ -30,3 +30,4 @@ class DuplicateGroupModel(Base):
     canonical_opportunity_id: Mapped[str] = mapped_column(String(64), ForeignKey("opportunities.id"), nullable=False)
     merged_count: Mapped[int] = mapped_column(Integer, default=1)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
+

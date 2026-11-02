@@ -131,3 +131,4 @@ Tracks cross-source clusters of the same opportunity.
 - `canonical_opportunity_id` (VARCHAR(64), Foreign Key `opportunities.id`).
 - `merged_count` (INTEGER, Default 1).
 - `created_at` (DATETIME, Default UTC now).
+

@@ -40,6 +40,9 @@ class MarkdownReportGenerator:
         lines.append(f"| New Opportunities | {metrics.get('new_count', 0)} |")
         lines.append(f"| Duplicate Opportunities | {metrics.get('duplicate_count', 0)} |")
         lines.append(f"| Relevant AI Opportunities | {metrics.get('relevant_count', 0)} |")
+        lines.append(f"| Published Within 24 Hours | {metrics.get('fresh_24h', 0)} |")
+        lines.append(f"| Published Within 7 Days | {metrics.get('fresh_7d', 0)} |")
+        lines.append(f"| Unknown Publication Date | {metrics.get('unknown_date', 0)} |")
         lines.append(f"| Excellent Matches (Score ≥ 90) | {metrics.get('excellent_matches', 0)} |")
         lines.append(f"| Strong Matches (Score 80-89) | {metrics.get('strong_matches', 0)} |")
         lines.append(f"| Verified / Likely Eligible in Egypt | {metrics.get('eligible_in_egypt', 0)} |")
@@ -57,8 +60,13 @@ class MarkdownReportGenerator:
             lines.append("*No opportunities currently meet the recommendation threshold (Score ≥ 70 with valid Egypt eligibility).*\n")
         else:
             for opp in recommended[:15]:
+                from app.intelligence.freshness import human_readable_freshness, to_cairo_time
+                fresh_str = human_readable_freshness(opp.posted_at)
+                cairo_str = to_cairo_time(opp.posted_at)
                 lines.append(f"### [{opp.overall_score:.1f}/100] {opp.title} — {opp.company or 'Client'}")
                 lines.append(f"- **Source**: {opp.source_name} (`{opp.source_id}`)")
+                lines.append(f"- **Published**: `{fresh_str}` ({cairo_str}) | Freshness Status: `{opp.freshness_status}`")
+                lines.append(f"- **Seniority Alignment**: `{opp.seniority_compatibility or 'compatible'}`")
                 lines.append(f"- **Original Application Link**: [{opp.original_url}]({opp.original_url})")
                 lines.append(f"- **Payment Model**: {opp.payment_model.upper()} | **Compensation**: {opp.payment_details or 'Not disclosed'}")
                 lines.append(f"- **Egypt Eligibility**: `{opp.egypt_eligibility.replace('_', ' ').upper()}` ({opp.location or 'Remote'})")
@@ -127,3 +135,4 @@ class MarkdownReportGenerator:
             f.write("\n".join(lines))
 
         return report_path
+

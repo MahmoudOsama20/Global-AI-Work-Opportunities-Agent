@@ -8,3 +8,4 @@ def utc_now() -> datetime:
 class Base(DeclarativeBase):
     """SQLAlchemy Declarative Base class."""
     pass
+

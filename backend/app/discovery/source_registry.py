@@ -27,6 +27,15 @@ class SourceDiscoveryEngine:
         new_registered = 0
 
         with SessionLocal() as session:
+            # Pre-load known candidate domains and source IDs to prevent duplicates
+            existing_candidate_domains = set(
+                session.execute(select(SourceCandidateModel.domain)).scalars().all()
+            )
+            existing_source_ids = set(
+                session.execute(select(SourceModel.id)).scalars().all()
+            )
+            seen_domains = {d.strip().lower() for d in (existing_candidate_domains | existing_source_ids) if d}
+
             for query in queries:
                 app_logger.info(f"Running discovery query: '{query}'")
                 results = self.search_provider.search(query, limit=5)
@@ -36,34 +45,33 @@ class SourceDiscoveryEngine:
                     if not val.get("is_valid"):
                         continue
 
-                    domain = val.get("domain")
-                    # Check if already exists in candidates or sources
-                    existing_cand = session.execute(
-                        select(SourceCandidateModel).where(SourceCandidateModel.domain == domain)
-                    ).scalar_one_or_none()
+                    domain = (val.get("domain") or "").strip().lower()
+                    if not domain or domain in seen_domains:
+                        continue
 
-                    existing_source = session.execute(
-                        select(SourceModel).where(SourceModel.id == domain)
-                    ).scalar_one_or_none()
+                    seen_domains.add(domain)
 
-                    if not existing_cand and not existing_source:
-                        cand_model = SourceCandidateModel(
-                            domain=domain,
-                            platform_name=val.get("platform_name", domain),
-                            source_url=val.get("source_url"),
-                            category="discovered_platform",
-                            discovered_via_query=query,
-                            validation_status=val.get("status", "candidate"),
-                            legitimacy_score=val.get("legitimacy_score", 50.0),
-                            supports_egypt="unverified",
-                            payment_models_found=[],
-                            detection_notes=val.get("notes"),
-                            created_at=datetime.now(timezone.utc),
-                        )
-                        session.add(cand_model)
-                        new_registered += 1
+                    cand_model = SourceCandidateModel(
+                        domain=domain,
+                        platform_name=val.get("platform_name", domain),
+                        source_url=val.get("source_url"),
+                        category="discovered_platform",
+                        discovered_via_query=query,
+                        validation_status=val.get("status", "candidate"),
+                        legitimacy_score=val.get("legitimacy_score", 50.0),
+                        supports_egypt="unverified",
+                        payment_models_found=[],
+                        detection_notes=val.get("notes"),
+                        created_at=datetime.now(timezone.utc),
+                    )
+                    session.add(cand_model)
+                    new_registered += 1
 
-            session.commit()
+            try:
+                session.commit()
+            except Exception as exc:
+                app_logger.error(f"Failed to commit discovered candidates: {exc}")
+                session.rollback()
 
         return {
             "queries_executed": len(queries),
@@ -128,3 +136,4 @@ class SourceDiscoveryEngine:
             cand.reviewed_at = datetime.now(timezone.utc)
             session.commit()
             return True
+

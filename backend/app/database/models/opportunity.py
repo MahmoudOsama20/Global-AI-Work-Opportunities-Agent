@@ -42,11 +42,15 @@ class OpportunityModel(Base):
     application_requirements: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     assessment_required: Mapped[bool] = mapped_column(Boolean, default=False)
 
-    posted_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    posted_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True, index=True)
     deadline: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    collected_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
     first_seen_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
     last_seen_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
     last_verified_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
+
+    freshness_status: Mapped[str] = mapped_column(String(32), index=True, default="unknown_date")
+    freshness_score: Mapped[float] = mapped_column(Float, default=0.0)
 
     listing_status: Mapped[str] = mapped_column(String(32), index=True, default="active")
     verification_status: Mapped[str] = mapped_column(String(32), default="unverified")
@@ -54,6 +58,10 @@ class OpportunityModel(Base):
     skill_match_score: Mapped[float] = mapped_column(Float, default=0.0)
     eligibility_score: Mapped[float] = mapped_column(Float, default=0.0)
     overall_score: Mapped[float] = mapped_column(Float, index=True, default=0.0)
+
+    seniority_compatibility: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)
+    seniority_mismatch_reason: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    cv_match_breakdown: Mapped[dict] = mapped_column(JSON, default=dict)
 
     match_explanation: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     missing_skills: Mapped[list] = mapped_column(JSON, default=list)
@@ -73,3 +81,4 @@ class OpportunityModel(Base):
     __table_args__ = (
         Index("idx_opp_score_eligibility", "overall_score", "egypt_eligibility"),
     )
+

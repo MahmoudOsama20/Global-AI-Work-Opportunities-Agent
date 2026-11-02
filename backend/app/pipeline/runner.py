@@ -66,12 +66,30 @@ class PipelineRunner:
         new_sources_summary = {}
         if trigger_discovery:
             app_logger.info("Executing Source Discovery Engine...")
-            new_sources_summary = self.discovery_engine.discover_new_sources()
+            try:
+                new_sources_summary = self.discovery_engine.discover_new_sources()
+            except Exception as exc:
+                app_logger.error(f"Source Discovery Engine encountered an error: {exc}", exc_info=True)
+                new_sources_summary = {"error": str(exc)}
 
-        # Step 2: Determine active connectors
+        # Step 2: Determine active connectors & Load active CV Profile
         with SessionLocal() as session:
             source_repo = SourceRepository(session)
             enabled_sources = [s.id for s in source_repo.get_all(enabled_only=True)]
+
+            from app.database.repositories.cv_repo import CVRepository
+            cv_repo = CVRepository(session)
+            active_cv_model = cv_repo.get_active_profile()
+            active_cv = None
+            if active_cv_model:
+                active_cv = {
+                    "seniority_level": active_cv_model.seniority_level,
+                    "has_leadership_experience": active_cv_model.has_leadership_experience,
+                    "technical_skills": active_cv_model.technical_skills,
+                    "normalized_skills": active_cv_model.normalized_skills,
+                    "skill_evidence": active_cv_model.skill_evidence,
+                    "projects": active_cv_model.projects,
+                }
 
         connectors = self.registry.get_all(enabled_ids=enabled_sources)
         if source_filter:
@@ -79,7 +97,11 @@ class PipelineRunner:
         if category_filter:
             connectors = [c for c in connectors if c.category == category_filter.lower()]
 
-        app_logger.info(f"Executing {len(connectors)} connectors in concurrent thread pool...")
+        # Set active CV profile on each connector's normalizer
+        for c in connectors:
+            c.normalizer.cv_profile = active_cv
+
+        app_logger.info(f"Executing {len(connectors)} connectors in concurrent thread pool (Active CV: {bool(active_cv)})...")
 
         # Step 3: Concurrent Collection
         collected_raw: List[Any] = []

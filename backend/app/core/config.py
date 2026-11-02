@@ -100,3 +100,4 @@ class ConfigManager:
 
 settings = AppSettings()
 config_manager = ConfigManager()
+

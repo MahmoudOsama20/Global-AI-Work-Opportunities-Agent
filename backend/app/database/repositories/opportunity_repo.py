@@ -31,9 +31,16 @@ class OpportunityRepository:
             existing.last_seen_at = now
             existing.last_verified_at = now
             existing.listing_status = "active"
+            if opp.posted_at and not existing.posted_at:
+                existing.posted_at = opp.posted_at
+            existing.freshness_status = opp.freshness_status
+            existing.freshness_score = opp.freshness_score
             existing.skill_match_score = opp.skill_match_score
             existing.eligibility_score = opp.eligibility_score
             existing.overall_score = opp.overall_score
+            existing.seniority_compatibility = opp.seniority_compatibility
+            existing.seniority_mismatch_reason = opp.seniority_mismatch_reason
+            existing.cv_match_breakdown = opp.cv_match_breakdown
             existing.recommendation = opp.recommendation
             existing.match_explanation = opp.match_explanation
             existing.missing_skills = opp.missing_skills
@@ -45,6 +52,7 @@ class OpportunityRepository:
             return existing, False
         else:
             data = opp.model_dump()
+            data["collected_at"] = now
             data["first_seen_at"] = now
             data["last_seen_at"] = now
             data["last_verified_at"] = now
@@ -82,6 +90,38 @@ class OpportunityRepository:
                 func.lower(OpportunityModel.description).like(term),
             ))
 
+        if filters.freshness:
+            from datetime import timedelta
+            f_now = datetime.now(timezone.utc)
+            f_val = filters.freshness.lower().strip()
+            if f_val == "6h":
+                conditions.append(OpportunityModel.posted_at >= (f_now - timedelta(hours=6)))
+            elif f_val == "12h":
+                conditions.append(OpportunityModel.posted_at >= (f_now - timedelta(hours=12)))
+            elif f_val == "24h":
+                conditions.append(OpportunityModel.posted_at >= (f_now - timedelta(hours=24)))
+            elif f_val == "3d":
+                conditions.append(OpportunityModel.posted_at >= (f_now - timedelta(days=3)))
+            elif f_val == "4d":
+                conditions.append(OpportunityModel.posted_at >= (f_now - timedelta(days=4)))
+            elif f_val == "7d":
+                conditions.append(OpportunityModel.posted_at >= (f_now - timedelta(days=7)))
+            elif f_val == "30d":
+                conditions.append(OpportunityModel.posted_at >= (f_now - timedelta(days=30)))
+            elif f_val == "custom":
+                if filters.posted_from:
+                    conditions.append(OpportunityModel.posted_at >= filters.posted_from)
+                if filters.posted_to:
+                    conditions.append(OpportunityModel.posted_at <= filters.posted_to)
+        elif filters.posted_from or filters.posted_to:
+            if filters.posted_from:
+                conditions.append(OpportunityModel.posted_at >= filters.posted_from)
+            if filters.posted_to:
+                conditions.append(OpportunityModel.posted_at <= filters.posted_to)
+
+        if not filters.include_unknown_dates and (filters.freshness not in [None, "all"]):
+            conditions.append(OpportunityModel.posted_at.is_not(None))
+
         if conditions:
             stmt = stmt.where(and_(*conditions))
             count_stmt = count_stmt.where(and_(*conditions))
@@ -117,6 +157,24 @@ class OpportunityRepository:
         )
         unverified_egypt = self.session.execute(unverified_egypt_stmt).scalar_one()
 
+        # Freshness counts
+        from datetime import timedelta
+        f_now = datetime.now(timezone.utc)
+        fresh_24h_stmt = select(func.count(OpportunityModel.id)).where(
+            OpportunityModel.posted_at >= (f_now - timedelta(hours=24))
+        )
+        fresh_24h = self.session.execute(fresh_24h_stmt).scalar_one()
+
+        fresh_7d_stmt = select(func.count(OpportunityModel.id)).where(
+            OpportunityModel.posted_at >= (f_now - timedelta(days=7))
+        )
+        fresh_7d = self.session.execute(fresh_7d_stmt).scalar_one()
+
+        unknown_date_stmt = select(func.count(OpportunityModel.id)).where(
+            OpportunityModel.posted_at.is_(None)
+        )
+        unknown_date = self.session.execute(unknown_date_stmt).scalar_one()
+
         # Group by source
         source_stmt = select(
             OpportunityModel.source_name,
@@ -130,5 +188,8 @@ class OpportunityRepository:
             "strong_matches": strong,
             "eligible_in_egypt": eligible_egypt,
             "unverified_eligibility": unverified_egypt,
+            "fresh_24h": fresh_24h,
+            "fresh_7d": fresh_7d,
+            "unknown_date": unknown_date,
             "by_source": source_counts,
         }

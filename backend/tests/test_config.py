@@ -34,3 +34,4 @@ def test_exclusions_config_loaded():
     assert "transcription" in exclusions["speech_and_audio"]["keywords"]
     assert "automation_as_job_category" in exclusions
     assert "rpa" in exclusions["automation_as_job_category"]["keywords"]
+

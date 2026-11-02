@@ -5,6 +5,7 @@ from app.discovery.source_validator import SourceValidator
 from app.discovery.source_registry import SourceDiscoveryEngine
 from app.database.session import SessionLocal, init_db
 from app.database.models.source import SourceModel
+from sqlalchemy import delete
 from app.database.models.candidate import SourceCandidateModel
 
 def test_query_generator():
@@ -65,3 +66,33 @@ def test_discovery_engine_lifecycle():
         assert promoted_source is not None
         assert promoted_source.name == "Mercor"
         assert promoted_source.status == "verified"
+
+
+def test_discovery_engine_duplicate_domains_in_results():
+    """Verify that multiple search results yielding the same domain do not fail on UNIQUE constraint."""
+    init_db()
+    test_domain = "unique-test-eval-domain.ai"
+    with SessionLocal() as session:
+        session.execute(
+            delete(SourceCandidateModel).where(SourceCandidateModel.domain == test_domain)
+        )
+        session.commit()
+
+    mock_provider = MockSearchProvider([
+        {
+            "title": "AI Training Jobs 1",
+            "url": f"https://{test_domain}/page1",
+            "snippet": "Worldwide AI model training and evaluation remote jobs.",
+        },
+        {
+            "title": "AI Training Jobs 2",
+            "url": f"https://{test_domain}/page2",
+            "snippet": "Worldwide AI model training and evaluation remote jobs.",
+        },
+    ])
+    engine = SourceDiscoveryEngine(search_provider=mock_provider)
+    result = engine.discover_new_sources(max_queries=2)
+    assert result["candidates_found"] >= 2
+    assert result["new_sources_registered"] == 1
+
+

@@ -21,7 +21,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, isRunni
     { id: 'opportunities', label: 'Opportunities', icon: Search },
     { id: 'sources', label: 'Sources', icon: Globe2 },
     { id: 'discovery', label: 'Discovery Center', icon: Compass },
-    { id: 'profile', label: 'My Profile', icon: UserCheck },
+    { id: 'profile', label: 'My CV & Profile', icon: UserCheck },
     { id: 'reports', label: 'Reports & History', icon: FileText },
   ];
 
@@ -76,3 +76,4 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, isRunni
     </header>
   );
 };
+

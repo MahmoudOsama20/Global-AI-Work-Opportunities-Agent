@@ -38,3 +38,4 @@ Discovered listings are scanned for fraud signals before inclusion:
 - Off-platform communication redirection (e.g., "message this Telegram username immediately for interview").
 - Unverified external redirects or phishing domains.
 Listing risk status is flagged (`low`, `review`, `high`, `scam`) with explanatory evidence so the user is never misled.
+

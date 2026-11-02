@@ -60,3 +60,4 @@ class BaseConnector(ABC):
 - **Per-Connector Timeout**: Configurable timeout (default 30 seconds) prevents slow sources from hanging the search.
 - **Circuit Breaker / Health State**: If a connector fails 3 consecutive runs, it is marked as `broken` in the database until manual health check or review.
 - **Zero Fabrication**: If a connector fails, an empty list of opportunities is returned with a failure log. Synthetic or fabricated listings are strictly prohibited in production reports.
+

@@ -32,3 +32,4 @@ def list_runs(
     repo = RunRepository(db)
     items = repo.get_recent_runs(limit=limit)
     return [CollectionRunRead.model_validate(item) for item in items]
+

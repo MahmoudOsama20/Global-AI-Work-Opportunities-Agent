@@ -52,6 +52,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 <p class="text-3xl font-extrabold text-indigo-400 mt-2">{{ metrics.duplicate_count or 0 }}</p>
             </div>
             <div class="bg-slate-800/60 border border-slate-700/50 p-5 rounded-xl">
+                <span class="text-xs font-medium text-slate-400 uppercase">Fresh (≤ 24h)</span>
+                <p class="text-3xl font-extrabold text-emerald-400 mt-2">{{ metrics.fresh_24h or 0 }}</p>
+            </div>
+            <div class="bg-slate-800/60 border border-slate-700/50 p-5 rounded-xl">
+                <span class="text-xs font-medium text-slate-400 uppercase">Fresh (≤ 7d)</span>
+                <p class="text-3xl font-extrabold text-teal-400 mt-2">{{ metrics.fresh_7d or 0 }}</p>
+            </div>
+            <div class="bg-slate-800/60 border border-slate-700/50 p-5 rounded-xl">
                 <span class="text-xs font-medium text-slate-400 uppercase">Excellent Matches</span>
                 <p class="text-3xl font-extrabold text-amber-400 mt-2">{{ metrics.excellent_matches or 0 }}</p>
             </div>
@@ -179,3 +187,4 @@ class HtmlReportGenerator:
             f.write(rendered)
 
         return report_path
+

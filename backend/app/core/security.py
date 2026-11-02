@@ -51,3 +51,4 @@ def canonicalize_url(url: str) -> str:
         return canonical
     except Exception:
         return url.strip()
+

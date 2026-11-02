@@ -78,3 +78,4 @@ class DeduplicationEngine:
                 canonical_list.append(candidate)
 
         return canonical_list, duplicate_count
+

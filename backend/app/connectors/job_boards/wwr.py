@@ -63,10 +63,12 @@ class WeWorkRemotelyConnector(BaseConnector):
                 title_elem = item.find("title")
                 link_elem = item.find("link")
                 desc_elem = item.find("description")
+                pub_date_elem = item.find("pubDate")
 
                 title = title_elem.text if title_elem is not None else ""
                 link = link_elem.text if link_elem is not None else ""
                 raw_desc = desc_elem.text if desc_elem is not None else ""
+                pub_date = pub_date_elem.text if pub_date_elem is not None else None
 
                 soup = BeautifulSoup(raw_desc, "html.parser")
                 clean_desc = soup.get_text(separator="\n", strip=True)
@@ -83,6 +85,7 @@ class WeWorkRemotelyConnector(BaseConnector):
                     "description": clean_desc,
                     "url": link,
                     "location": "Worldwide",
+                    "posted_at": pub_date,
                     "category": "engineering",
                 }
                 opp, is_excluded, reason = self.normalizer.normalize(

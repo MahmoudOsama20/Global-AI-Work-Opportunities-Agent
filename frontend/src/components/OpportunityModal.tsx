@@ -62,9 +62,19 @@ export const OpportunityModal: React.FC<ModalProps> = ({ opp, onClose }) => {
               </span>
             </div>
             <h2 className="text-2xl font-extrabold text-white">{opp.title}</h2>
-            <p className="text-sm text-slate-400 font-medium">
-              {opp.company || 'Direct Client'} &bull; Discovered {new Date(opp.first_seen_at).toLocaleDateString()}
-            </p>
+            <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400 font-medium">
+              <span>{opp.company || 'Direct Client'} &bull; {opp.location || 'Remote'}</span>
+              <span>&bull;</span>
+              <span className="flex items-center gap-1 text-emerald-400">
+                <Clock className="w-3.5 h-3.5" />
+                <span>Published: {opp.posted_at ? new Date(opp.posted_at).toLocaleString() : 'Date Unknown'}</span>
+              </span>
+              {opp.freshness_status && (
+                <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 font-semibold uppercase text-[10px]">
+                  {opp.freshness_status.replace('_', ' ')}
+                </span>
+              )}
+            </div>
           </div>
           <button
             onClick={onClose}
@@ -77,6 +87,18 @@ export const OpportunityModal: React.FC<ModalProps> = ({ opp, onClose }) => {
         {/* Modal Body */}
         <div className="p-6 overflow-y-auto space-y-6 text-sm text-slate-200">
           
+          {/* Seniority Warning Alert if Incompatible */}
+          {opp.seniority_compatibility === 'incompatible_leadership' && (
+            <div className="bg-rose-950/40 border border-rose-500/40 rounded-xl p-4 flex items-start gap-3 text-rose-300">
+              <AlertTriangle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />
+              <div>
+                <p className="font-bold text-rose-200 text-sm">Seniority Mismatch: Engineering Leadership Required</p>
+                <p className="text-xs text-rose-300/90 mt-1">{opp.seniority_mismatch_reason}</p>
+                <p className="text-[11px] text-rose-400/80 mt-1">Automatic Seniority Deduction: -25.0 points applied to ranking.</p>
+              </div>
+            </div>
+          )}
+
           {/* Action Callout */}
           <div className="bg-emerald-950/30 border border-emerald-500/30 rounded-xl p-4 flex items-center justify-between gap-4">
             <div>
@@ -94,6 +116,33 @@ export const OpportunityModal: React.FC<ModalProps> = ({ opp, onClose }) => {
               <ExternalLink className="w-4 h-4" />
             </a>
           </div>
+
+          {/* 8-Factor Score Breakdown */}
+          {opp.cv_match_breakdown && (
+            <div className="bg-slate-950/60 border border-slate-800 p-4 rounded-xl space-y-3">
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
+                100-Point Scoring Breakdown & Evidence
+              </span>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                <div className="bg-slate-900 p-2.5 rounded-lg border border-slate-800">
+                  <span className="text-slate-400 block text-[11px]">Skill Match</span>
+                  <span className="font-bold text-white text-sm">{opp.cv_match_breakdown.skill_subscore || 0} / 25 pts</span>
+                </div>
+                <div className="bg-slate-900 p-2.5 rounded-lg border border-slate-800">
+                  <span className="text-slate-400 block text-[11px]">Seniority & Exp</span>
+                  <span className="font-bold text-white text-sm">{opp.cv_match_breakdown.experience_subscore || 0} / 15 pts</span>
+                </div>
+                <div className="bg-slate-900 p-2.5 rounded-lg border border-slate-800">
+                  <span className="text-slate-400 block text-[11px]">Publication Freshness</span>
+                  <span className="font-bold text-emerald-400 text-sm">{opp.cv_match_breakdown.freshness_subscore || 0} / 10 pts</span>
+                </div>
+                <div className="bg-slate-900 p-2.5 rounded-lg border border-slate-800">
+                  <span className="text-slate-400 block text-[11px]">Egypt Eligibility</span>
+                  <span className="font-bold text-cyan-400 text-sm">{opp.cv_match_breakdown.eligibility_subscore || 0} / 15 pts</span>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Quick Info Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -184,3 +233,4 @@ export const OpportunityModal: React.FC<ModalProps> = ({ opp, onClose }) => {
     </div>
   );
 };
+

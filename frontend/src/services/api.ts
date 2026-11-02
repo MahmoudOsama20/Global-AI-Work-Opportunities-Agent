@@ -1,4 +1,4 @@
-import { Opportunity, MetricsSummary, Source, Candidate, RunRecord, ReportItem } from '../types';
+import { Opportunity, MetricsSummary, Source, Candidate, RunRecord, ReportItem, CVProfile } from '../types';
 
 const API_BASE = '/api';
 
@@ -26,6 +26,53 @@ export const api = {
   async getOpportunity(id: string): Promise<Opportunity> {
     const res = await fetch(`${API_BASE}/opportunities/${id}`);
     if (!res.ok) throw new Error('Failed to fetch opportunity');
+    return res.json();
+  },
+
+  // Deep CV Intelligence
+  async uploadCV(file: File): Promise<CVProfile> {
+    const formData = new FormData();
+    formData.append('file', file);
+    const res = await fetch(`${API_BASE}/cv/upload`, {
+      method: 'POST',
+      body: formData,
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || 'Failed to upload CV');
+    }
+    return res.json();
+  },
+
+  async getCVProfile(): Promise<CVProfile | null> {
+    const res = await fetch(`${API_BASE}/cv/profile`);
+    if (!res.ok) throw new Error('Failed to fetch CV profile');
+    return res.json();
+  },
+
+  async updateCVProfile(id: string, updates: Partial<CVProfile>): Promise<CVProfile> {
+    const res = await fetch(`${API_BASE}/cv/profile/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updates),
+    });
+    if (!res.ok) throw new Error('Failed to update CV profile');
+    return res.json();
+  },
+
+  async approveCVProfile(id: string): Promise<CVProfile> {
+    const res = await fetch(`${API_BASE}/cv/profile/${id}/approve`, {
+      method: 'POST',
+    });
+    if (!res.ok) throw new Error('Failed to approve CV profile');
+    return res.json();
+  },
+
+  async deleteCVData(): Promise<{ status: string; deleted_profiles: number }> {
+    const res = await fetch(`${API_BASE}/cv`, {
+      method: 'DELETE',
+    });
+    if (!res.ok) throw new Error('Failed to delete CV data');
     return res.json();
   },
 
@@ -118,3 +165,4 @@ export const api = {
     return res.json();
   },
 };
+

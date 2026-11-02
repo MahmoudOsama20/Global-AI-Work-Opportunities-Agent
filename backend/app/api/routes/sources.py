@@ -38,3 +38,4 @@ def trigger_health_check():
     runner = PipelineRunner()
     results = runner.health_check_all()
     return [r.model_dump() for r in results]
+

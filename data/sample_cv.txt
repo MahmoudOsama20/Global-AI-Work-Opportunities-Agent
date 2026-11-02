@@ -1,0 +1,43 @@
+Mohamed Ahmed
+Cairo, Egypt | mohamed.ahmed@example.com
+Senior Computer Vision & AI Engineer
+
+PROFESSIONAL SUMMARY
+Results-driven AI Engineer with 4 years of hands-on experience designing, training, and deploying Computer Vision systems and Large Language Model applications. Expert in YOLO object detection, segmentation models, RAG architectures with LangChain, and high-performance ML inference deployment with FastAPI, Docker, and Kubernetes. Based in Cairo, Egypt, with full capability for international remote contract work.
+
+TECHNICAL SKILLS
+- Deep Learning & Vision: PyTorch, TensorFlow, OpenCV, YOLO, YOLOv8, YOLOv11, U-Net, DeepLabV3+, Vision Transformers
+- Generative AI & LLMs: RAG, LangChain, LangGraph, LlamaIndex, Embeddings, ChromaDB, Hugging Face, Transformers
+- MLOps & Production: FastAPI, Docker, Docker Compose, Kubernetes, AWS, ONNX, MLflow, CI/CD
+- AI Evaluation & Annotation: RLHF, AI Model Evaluation, Benchmark Creation, Technical Image Annotation
+- Programming: Python, C++, SQL, Bash
+
+KEY PROJECTS
+Real-Time Industrial Defect Detection & Segmentation
+- Designed and trained an end-to-end edge vision inspection pipeline using YOLOv8 and DeepLabV3+.
+- Optimized model inference with ONNX runtime on embedded hardware, achieving 45 FPS and 94.2% mAP.
+- Containerized the inference service with Docker and exposed REST prediction endpoints with FastAPI.
+
+Multimodal RAG Agent for Enterprise Intelligence
+- Developed a retrieval-augmented generation agent using LangChain, LangGraph, and OpenAI embeddings.
+- Integrated hybrid vector search using ChromaDB and automated benchmark evaluation of LLM answers.
+- Deployed on AWS ECS with automated health checks and Docker container orchestration.
+
+WORK EXPERIENCE
+AI & Computer Vision Engineer | Cairo Intelligence Systems
+2022 - Present | Cairo, Egypt
+- Implemented real-time object detection and instance segmentation models for international clients.
+- Built containerized model serving microservices handling 50,000 requests per day using FastAPI and Docker.
+- Spearheaded prompt evaluation and model benchmarking workflows for multilingual LLMs.
+
+Machine Learning Engineer | DataVision Labs
+2020 - 2022 | Cairo, Egypt
+- Trained custom convolutional neural networks and conducted hyperparameter tuning in PyTorch.
+- Curated high-precision computer vision datasets with bounding box and polygon annotations.
+
+EDUCATION
+Bachelor of Science in Computer Science | Cairo University | Graduated 2020
+
+LANGUAGES
+- Arabic (Native)
+- English (Fluent / Professional Working Proficiency)

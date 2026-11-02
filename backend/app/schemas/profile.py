@@ -31,3 +31,4 @@ class UserProfile(BaseModel):
     priority_order: List[str] = Field(default_factory=list)
     domains: Dict[str, TechnicalDomain] = Field(default_factory=dict)
     languages: List[Dict[str, str]] = Field(default_factory=list)
+

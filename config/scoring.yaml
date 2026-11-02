@@ -1,12 +1,13 @@
 # 100-Point Scoring Model Configuration
 
 weights:
-  technical_skill_match: 30
-  experience_match: 20
+  technical_skill_match: 25
+  experience_match: 15
   opportunity_type_preference: 10
   egypt_eligibility: 15
   compensation_attractiveness: 10
   project_quality_and_clarity: 10
+  freshness: 10
   application_feasibility: 5
 
 thresholds:
@@ -58,3 +59,4 @@ domain_priority_multiplier:
   mlops_and_deployment: 1.00
   infrastructure_and_containers: 0.95
   general_machine_learning: 0.90
+

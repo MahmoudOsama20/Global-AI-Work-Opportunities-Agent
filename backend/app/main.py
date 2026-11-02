@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
 from app.core.config import settings
-from app.api.routes import opportunities, sources, pipeline, discovery, profile, reports
+from app.api.routes import opportunities, sources, pipeline, discovery, profile, reports, cv
 from app.database.session import init_db
 
 app = FastAPI(
@@ -29,6 +29,7 @@ app.include_router(pipeline.router, prefix="/api")
 app.include_router(discovery.router, prefix="/api")
 app.include_router(profile.router, prefix="/api")
 app.include_router(reports.router, prefix="/api")
+app.include_router(cv.router, prefix="/api")
 
 @app.on_event("startup")
 def on_startup():

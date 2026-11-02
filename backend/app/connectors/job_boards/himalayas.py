@@ -71,6 +71,7 @@ class HimalayasConnector(BaseConnector):
                     "url": job.get("application_link") or f"https://himalayas.app/companies/{job.get('company_slug')}/jobs/{job.get('slug')}",
                     "location": location_str,
                     "salary": salary_str,
+                    "posted_at": job.get("pub_date"),
                     "category": "engineering",
                 }
                 opp, is_excluded, reason = self.normalizer.normalize(

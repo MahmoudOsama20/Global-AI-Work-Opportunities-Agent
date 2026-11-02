@@ -1,6 +1,16 @@
 import asyncio
+import os
+import subprocess
 import sys
 from pathlib import Path
+
+# Auto-delegate to .venv python if executed outside the virtual environment
+ROOT_DIR = Path(__file__).resolve().parent
+VENV_PYTHON = ROOT_DIR / ".venv" / "Scripts" / "python.exe"
+if VENV_PYTHON.exists() and Path(sys.executable).resolve() != VENV_PYTHON.resolve():
+    result = subprocess.run([str(VENV_PYTHON), str(Path(__file__).resolve())] + sys.argv[1:], cwd=str(ROOT_DIR))
+    sys.exit(result.returncode)
+
 import typer
 from rich.console import Console
 from rich.table import Table
@@ -121,6 +131,73 @@ def inspect_account_command(
         console.print(f"Details: {res.get('message')}")
     else:
         console.print(f"[yellow]Platform '{platform}' account inspection not configured.[/yellow]")
+
+
+@cli.command("upload-cv")
+def upload_cv_command(
+    file_path: str = typer.Argument(..., help="Path to PDF, DOCX, or TXT resume file"),
+    approve: bool = typer.Option(True, "--approve/--no-approve", help="Automatically approve the extracted profile for active matching"),
+):
+    """Parses and ingests a CV resume into the local intelligence database."""
+    path = Path(file_path)
+    if not path.exists():
+        console.print(f"[bold red]File not found: {file_path}[/bold red]")
+        raise typer.Exit(code=1)
+
+    with open(path, "rb") as f:
+        file_bytes = f.read()
+
+    from app.intelligence.cv_parser import CVParser
+    from app.database.repositories.cv_repo import CVRepository
+
+    console.print(f"[bold cyan]Parsing CV document: {path.name}...[/bold cyan]")
+    parser = CVParser()
+    try:
+        parsed_data = parser.parse(file_bytes, path.name)
+        if approve:
+            parsed_data["approved"] = True
+    except Exception as e:
+        console.print(f"[bold red]Error parsing CV: {e}[/bold red]")
+        raise typer.Exit(code=1)
+
+    init_db()
+    with SessionLocal() as session:
+        repo = CVRepository(session)
+        profile = repo.save_profile(parsed_data)
+        console.print(f"[bold green]Successfully extracted and stored CV profile! ID: {profile.id}[/bold green]")
+        console.print(f"Professional Headline: [bold]{profile.professional_headline}[/bold]")
+        console.print(f"Seniority Level: [bold cyan]{profile.seniority_level.upper()}[/bold cyan] ({profile.years_of_experience} years)")
+        console.print(f"Leadership Experience: {profile.has_leadership_experience}")
+        console.print(f"Extracted Skills: {len(profile.technical_skills)} skills ({', '.join(profile.technical_skills[:8])})")
+        console.print(f"Projects Extracted: {len(profile.projects)}")
+        console.print(f"Approved Status: [bold]{profile.approved}[/bold]")
+
+
+@cli.command("show-cv")
+def show_cv_command():
+    """Displays the currently active/approved CV intelligence profile."""
+    from app.database.repositories.cv_repo import CVRepository
+    init_db()
+    with SessionLocal() as session:
+        repo = CVRepository(session)
+        profile = repo.get_active_profile()
+        if not profile:
+            console.print("[yellow]No CV profile has been uploaded yet.[/yellow]")
+            return
+
+        table = Table(title=f"Active CV Profile: {profile.filename}")
+        table.add_column("Field", style="cyan")
+        table.add_column("Value")
+        table.add_row("Profile ID", profile.id)
+        table.add_row("Headline", profile.professional_headline or "N/A")
+        table.add_row("Seniority", f"{profile.seniority_level.upper()} ({profile.years_of_experience} years)")
+        table.add_row("Leadership", str(profile.has_leadership_experience))
+        table.add_row("Skills Count", str(len(profile.technical_skills)))
+        table.add_row("Top Skills", ", ".join(profile.technical_skills[:10]))
+        table.add_row("Projects Count", str(len(profile.projects)))
+        table.add_row("Confidence", f"{profile.extraction_confidence}%")
+        table.add_row("Approved", str(profile.approved))
+        console.print(table)
 
 
 @cli.command("serve")

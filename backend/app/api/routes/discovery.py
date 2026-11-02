@@ -33,3 +33,4 @@ def trigger_discovery(max_queries: int = 3):
     """Triggers the Source Discovery Engine."""
     engine = SourceDiscoveryEngine()
     return engine.discover_new_sources(max_queries=max_queries)
+

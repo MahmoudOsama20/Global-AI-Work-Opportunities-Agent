@@ -56,3 +56,4 @@ Respond ONLY in valid JSON matching this exact structure:
         except Exception as e:
             app_logger.warning(f"Gemini API call failed: {e}. Using deterministic fallback.")
             return await self.fallback.analyze_opportunity(title, description, profile_summary)
+

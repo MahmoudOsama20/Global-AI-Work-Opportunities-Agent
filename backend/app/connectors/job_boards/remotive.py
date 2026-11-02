@@ -63,6 +63,7 @@ class RemotiveConnector(BaseConnector):
                     "url": job.get("url"),
                     "location": job.get("candidate_required_location") or "Worldwide",
                     "salary": job.get("salary"),
+                    "posted_at": job.get("publication_date"),
                     "category": "engineering",
                 }
                 opp, is_excluded, reason = self.normalizer.normalize(

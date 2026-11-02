@@ -65,6 +65,7 @@ class RemoteOKConnector(BaseConnector):
                     "url": job.get("url") or f"https://remoteok.com/l/{job.get('id')}",
                     "location": job.get("location") or "Worldwide",
                     "salary": f"${job.get('salary_min', 0)} - ${job.get('salary_max', 0)} / year" if job.get("salary_max") else None,
+                    "posted_at": job.get("date"),
                     "category": "engineering",
                 }
                 opp, is_excluded, reason = self.normalizer.normalize(

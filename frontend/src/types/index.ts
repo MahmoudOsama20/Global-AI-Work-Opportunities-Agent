@@ -29,9 +29,15 @@ export interface Opportunity {
   application_requirements: string | null;
   assessment_required: boolean;
   posted_at: string | null;
+  collected_at?: string;
   first_seen_at: string;
   last_seen_at: string;
   last_verified_at: string;
+  freshness_status?: string;
+  freshness_score?: number;
+  seniority_compatibility?: string | null;
+  seniority_mismatch_reason?: string | null;
+  cv_match_breakdown?: Record<string, any>;
   listing_status: string;
   verification_status: string;
   skill_match_score: number;
@@ -54,7 +60,60 @@ export interface MetricsSummary {
   strong_matches: number;
   eligible_in_egypt: number;
   unverified_eligibility: number;
+  fresh_24h?: number;
+  fresh_7d?: number;
+  unknown_date?: number;
   by_source: Record<string, number>;
+}
+
+export interface CVSkillEvidence {
+  skill_name: string;
+  normalized_name: string;
+  evidence_source: string;
+  context_snippet?: string;
+  associated_project?: string;
+  confidence: number;
+}
+
+export interface CVProject {
+  title: string;
+  domain?: string;
+  technologies: string[];
+  description: string;
+  metrics?: string;
+  responsibilities?: string;
+}
+
+export interface CVExperience {
+  title: string;
+  company?: string;
+  duration?: string;
+  is_current: boolean;
+  responsibilities: string[];
+  technologies: string[];
+}
+
+export interface CVProfile {
+  id: string;
+  filename: string;
+  file_type: string;
+  file_size_bytes: number;
+  professional_headline?: string;
+  career_summary?: string;
+  years_of_experience?: number;
+  seniority_level: string;
+  has_leadership_experience: boolean;
+  technical_skills: string[];
+  normalized_skills: string[];
+  skill_evidence: CVSkillEvidence[];
+  projects: CVProject[];
+  employment_history: CVExperience[];
+  languages: string[];
+  extraction_confidence: number;
+  approved: boolean;
+  version: number;
+  uploaded_at: string;
+  updated_at: string;
 }
 
 export interface Source {

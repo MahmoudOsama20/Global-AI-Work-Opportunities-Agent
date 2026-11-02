@@ -30,3 +30,4 @@ class SourceModel(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, onupdate=utc_now)
 
     opportunities = relationship("OpportunityModel", back_populates="source", cascade="all, delete-orphan")
+

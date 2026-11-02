@@ -8,12 +8,13 @@ from app.intelligence.payment_parser import PaymentParser
 from app.intelligence.eligibility import CountryEligibilityEvaluator
 from app.intelligence.risk_analyzer import RiskAnalyzer
 from app.intelligence.matcher import MatchingEngine
+from app.intelligence.freshness import parse_timestamp, calculate_freshness
 from app.schemas.opportunity import NormalizedOpportunity
 
 class OpportunityNormalizer:
     """Universal Normalization Engine transforming raw connector data into the standard intelligence schema."""
 
-    def __init__(self):
+    def __init__(self, cv_profile: Optional[Dict[str, Any]] = None):
         self.exclusions = ExclusionEngine()
         self.classifier = DomainClassifier()
         self.skill_extractor = SkillExtractor()
@@ -21,6 +22,7 @@ class OpportunityNormalizer:
         self.eligibility_evaluator = CountryEligibilityEvaluator()
         self.risk_analyzer = RiskAnalyzer()
         self.matcher = MatchingEngine()
+        self.cv_profile = cv_profile
 
     def normalize(
         self,
@@ -29,6 +31,7 @@ class OpportunityNormalizer:
         source_name: str,
         source_type: str = "job_board",
         source_supports_egypt: str = "unknown",
+        cv_profile: Optional[Dict[str, Any]] = None,
     ) -> Tuple[Optional[NormalizedOpportunity], bool, Optional[str]]:
         """
         Transforms raw data into a NormalizedOpportunity.
@@ -83,7 +86,24 @@ class OpportunityNormalizer:
             hourly_rate_max=payment_info["hourly_rate_max"],
         )
 
-        # 8. Score & Rank
+        # 8. Parse publication and freshness timestamps
+        raw_posted = (
+            raw_item.get("posted_at")
+            or raw_item.get("publication_date")
+            or raw_item.get("date")
+            or raw_item.get("pub_date")
+            or raw_item.get("created_at")
+        )
+        posted_at = parse_timestamp(raw_posted)
+        raw_updated = raw_item.get("updated_at")
+        updated_at = parse_timestamp(raw_updated)
+        is_rel = isinstance(raw_posted, str) and any(
+            t in raw_posted.lower() for t in ["ago", "yesterday", "today", "just now", "hour", "minute"]
+        )
+        freshness_status, freshness_score = calculate_freshness(posted_at, updated_at, is_relative=is_rel)
+
+        # 9. Score & Rank
+        active_cv = cv_profile or self.cv_profile
         scoring_res = self.matcher.score_opportunity(
             domains=domains,
             matched_skills=matched_skills,
@@ -94,10 +114,13 @@ class OpportunityNormalizer:
             hourly_rate_max=payment_info["hourly_rate_max"],
             fixed_budget=payment_info["fixed_budget_max"] or payment_info["fixed_budget_min"],
             description=description,
+            title=title,
             risk_level=risk_level,
+            freshness_score=freshness_score,
+            cv_profile=active_cv,
         )
 
-        # 9. Assemble Universal Opportunity Object
+        # 10. Assemble Universal Opportunity Object
         opp = NormalizedOpportunity(
             id=opp_id,
             source_id=source_id,
@@ -128,7 +151,12 @@ class OpportunityNormalizer:
             payment_methods=raw_item.get("payment_methods", []),
             application_requirements=raw_item.get("application_requirements"),
             assessment_required="assessment" in full_text.lower(),
-            posted_at=raw_item.get("posted_at"),
+            posted_at=posted_at,
+            freshness_status=freshness_status,
+            freshness_score=freshness_score,
+            seniority_compatibility=scoring_res.get("seniority_compatibility"),
+            seniority_mismatch_reason=scoring_res.get("seniority_mismatch_reason"),
+            cv_match_breakdown=scoring_res.get("cv_match_breakdown", {}),
             listing_status="active",
             verification_status="verified" if source_supports_egypt == "verified" else "unverified",
             skill_match_score=scoring_res["skill_match_score"],
@@ -142,3 +170,4 @@ class OpportunityNormalizer:
         )
 
         return opp, False, None
+

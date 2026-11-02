@@ -148,3 +148,4 @@ def test_negative_10_no_fake_opportunity_on_failure():
     )
     assert failed_result.success is False
     assert len(failed_result.opportunities) == 0
+

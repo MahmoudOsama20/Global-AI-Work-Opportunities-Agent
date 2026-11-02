@@ -120,3 +120,4 @@ class CountryEligibilityEvaluator:
             "payout_compatible": False,
             "explanation": "Unverified Eligibility: Location mentions 'Remote' without explicit worldwide or international confirmation.",
         }
+

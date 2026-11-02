@@ -44,3 +44,4 @@ class SkillExtractor:
                 missing_tech.append(tech)
 
         return matched, missing_tech
+

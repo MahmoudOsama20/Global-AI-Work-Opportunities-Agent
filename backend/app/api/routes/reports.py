@@ -45,3 +45,4 @@ def get_markdown_report(run_id: str):
     if not report_file.exists():
         raise HTTPException(status_code=404, detail="Markdown report not found")
     return PlainTextResponse(content=report_file.read_text(encoding="utf-8"))
+

@@ -73,3 +73,4 @@ class SourceValidator:
             "notes": " | ".join(notes),
             "is_valid": legitimacy_score >= 50.0 and status != "broken",
         }
+

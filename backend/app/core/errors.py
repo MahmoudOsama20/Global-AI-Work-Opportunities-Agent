@@ -47,3 +47,4 @@ class AuthenticationRequiredError(AppException):
         )
         self.source_id = source_id
         self.login_url = login_url
+

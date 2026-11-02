@@ -44,3 +44,4 @@ class DomainClassifier:
             key=lambda d: priority_map.get(d, 99)
         )
         return sorted_domains
+

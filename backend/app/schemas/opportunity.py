@@ -38,9 +38,13 @@ class OpportunityBase(BaseModel):
 
     posted_at: Optional[datetime] = None
     deadline: Optional[datetime] = None
+    collected_at: Optional[datetime] = None
     first_seen_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     last_seen_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     last_verified_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+    freshness_status: str = Field("unknown_date", description="fresh_verified, fresh_relative, updated_recently, stale, unknown_date, expired")
+    freshness_score: float = Field(0.0, ge=0.0, le=100.0)
 
     listing_status: str = Field("active", description="active, expired, removed")
     verification_status: str = Field("unverified", description="verified, unverified, disputed")
@@ -48,6 +52,10 @@ class OpportunityBase(BaseModel):
     skill_match_score: float = Field(0.0, ge=0.0, le=100.0)
     eligibility_score: float = Field(0.0, ge=0.0, le=100.0)
     overall_score: float = Field(0.0, ge=0.0, le=100.0)
+
+    seniority_compatibility: Optional[str] = None
+    seniority_mismatch_reason: Optional[str] = None
+    cv_match_breakdown: Dict[str, Any] = Field(default_factory=dict)
 
     match_explanation: Optional[str] = None
     missing_skills: List[str] = Field(default_factory=list)
@@ -86,5 +94,9 @@ class OpportunityFilter(BaseModel):
     search_query: Optional[str] = None
     payment_model: Optional[str] = None
     recommendation: Optional[str] = None
+    freshness: Optional[str] = None
+    posted_from: Optional[datetime] = None
+    posted_to: Optional[datetime] = None
+    include_unknown_dates: bool = True
     limit: int = 50
     offset: int = 0

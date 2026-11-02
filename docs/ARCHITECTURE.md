@@ -110,3 +110,4 @@ Platforms like Outlier, Alignerr, and Appen frequently have private worker dashb
 - **Zero GPU / CUDA Dependency**: CPU-only algorithms for text matching, fuzzy similarity (RapidFuzz/thefuzz), and tokenization.
 - **Lightweight Dependencies**: Fast parsing with `selectolax` / `beautifulsoup4`, asynchronous networking with `httpx`, minimal memory footprint.
 - **Controlled Storage**: Virtual environment, browser caches, and SQLite database fit well within available disk headroom (<1 GB total).
+

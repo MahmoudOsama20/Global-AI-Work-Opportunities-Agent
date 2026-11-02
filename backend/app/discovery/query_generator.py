@@ -24,3 +24,4 @@ class DiscoveryQueryGenerator:
             "RLHF prompt evaluation platform hire worldwide",
         ]
         return base_queries
+

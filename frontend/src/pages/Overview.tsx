@@ -101,15 +101,20 @@ export const Overview: React.FC<OverviewProps> = ({ onSelectOpp, isRunning, onTr
           <p className="text-3xl font-extrabold text-white mt-2">{metrics?.total_opportunities || 0}</p>
           <span className="text-[11px] text-slate-400 mt-1 block">Active across platforms</span>
         </div>
-        <div className="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl shadow-sm">
-          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Excellent Matches</span>
-          <p className="text-3xl font-extrabold text-amber-400 mt-2">{metrics?.excellent_matches || 0}</p>
-          <span className="text-[11px] text-amber-400/80 mt-1 block">Score 90 – 100</span>
+        <div className="bg-slate-900/80 border border-emerald-500/20 bg-emerald-950/10 p-5 rounded-2xl shadow-sm">
+          <span className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Fresh (≤ 24 Hours)</span>
+          <p className="text-3xl font-extrabold text-emerald-300 mt-2">{metrics?.fresh_24h || 0}</p>
+          <span className="text-[11px] text-emerald-400/80 mt-1 block">Published today</span>
+        </div>
+        <div className="bg-slate-900/80 border border-teal-500/20 bg-teal-950/10 p-5 rounded-2xl shadow-sm">
+          <span className="text-xs font-semibold text-teal-400 uppercase tracking-wider">Fresh (≤ 7 Days)</span>
+          <p className="text-3xl font-extrabold text-teal-300 mt-2">{metrics?.fresh_7d || 0}</p>
+          <span className="text-[11px] text-teal-400/80 mt-1 block">Published this week</span>
         </div>
         <div className="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl shadow-sm">
-          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Strong Matches</span>
-          <p className="text-3xl font-extrabold text-emerald-400 mt-2">{metrics?.strong_matches || 0}</p>
-          <span className="text-[11px] text-emerald-400/80 mt-1 block">Score 80 – 89</span>
+          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Top Matches (≥80)</span>
+          <p className="text-3xl font-extrabold text-amber-400 mt-2">{(metrics?.excellent_matches || 0) + (metrics?.strong_matches || 0)}</p>
+          <span className="text-[11px] text-amber-400/80 mt-1 block">High CV alignment</span>
         </div>
         <div className="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl shadow-sm">
           <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Eligible In Egypt</span>
@@ -117,16 +122,9 @@ export const Overview: React.FC<OverviewProps> = ({ onSelectOpp, isRunning, onTr
           <span className="text-[11px] text-cyan-400/80 mt-1 block">Payout verified</span>
         </div>
         <div className="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl shadow-sm">
-          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Needs Verification</span>
-          <p className="text-3xl font-extrabold text-yellow-400 mt-2">{metrics?.unverified_eligibility || 0}</p>
-          <span className="text-[11px] text-yellow-400/80 mt-1 block">Unspecified country</span>
-        </div>
-        <div className="bg-slate-900/80 border border-slate-800 p-5 rounded-2xl shadow-sm">
           <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Sources Active</span>
-          <p className="text-3xl font-extrabold text-indigo-400 mt-2">
-            {metrics?.by_source ? Object.keys(metrics.by_source).length : 0}
-          </p>
-          <span className="text-[11px] text-indigo-400/80 mt-1 block">Marketplaces & Boards</span>
+          <p className="text-3xl font-extrabold text-indigo-400 mt-2">{metrics?.by_source ? Object.keys(metrics.by_source).length : 6}</p>
+          <span className="text-[11px] text-indigo-400/80 mt-1 block">Verified ATS & APIs</span>
         </div>
       </div>
 
@@ -259,3 +257,4 @@ export const Overview: React.FC<OverviewProps> = ({ onSelectOpp, isRunning, onTr
     </div>
   );
 };
+

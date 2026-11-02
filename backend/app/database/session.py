@@ -37,7 +37,27 @@ def get_db() -> Generator[Session, None, None]:
     finally:
         session.close()
 
+def _migrate_columns():
+    """Ensures newly added columns are present in existing SQLite tables."""
+    from sqlalchemy import inspect, text
+    inspector = inspect(engine)
+    if "opportunities" in inspector.get_table_names():
+        columns = {col["name"] for col in inspector.get_columns("opportunities")}
+        new_columns = [
+            ("collected_at", "DATETIME"),
+            ("freshness_status", "VARCHAR(32) DEFAULT 'unknown_date'"),
+            ("freshness_score", "FLOAT DEFAULT 0.0"),
+            ("seniority_compatibility", "VARCHAR(64)"),
+            ("seniority_mismatch_reason", "TEXT"),
+            ("cv_match_breakdown", "JSON DEFAULT '{}'"),
+        ]
+        with engine.begin() as conn:
+            for col_name, col_type in new_columns:
+                if col_name not in columns:
+                    conn.execute(text(f"ALTER TABLE opportunities ADD COLUMN {col_name} {col_type}"))
+
 def init_db():
-    """Initializes all database tables synchronously."""
+    """Initializes all database tables synchronously and applies light migrations."""
     _ensure_db_dir(settings.DATABASE_SYNC_URL)
     Base.metadata.create_all(bind=engine)
+    _migrate_columns()

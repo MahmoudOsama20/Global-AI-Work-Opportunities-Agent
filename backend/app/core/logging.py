@@ -39,3 +39,4 @@ def setup_logging() -> logging.Logger:
     return logger
 
 app_logger = setup_logging()
+

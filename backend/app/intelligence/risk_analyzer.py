@@ -48,3 +48,4 @@ class RiskAnalyzer:
             return "review", warnings[0]
         else:
             return "low", "Verified low risk profile."
+

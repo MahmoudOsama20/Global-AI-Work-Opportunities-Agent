@@ -70,6 +70,7 @@ class AlignerrPublicConnector(BaseConnector):
                     "description": clean_desc,
                     "url": job.get("absolute_url") or f"https://boards.greenhouse.io/alignerr/jobs/{job.get('id')}",
                     "location": job.get("location", {}).get("name", "Worldwide"),
+                    "posted_at": job.get("updated_at"),
                     "category": "ai_training_and_evaluation",
                     "payment_methods": ["deel", "payoneer", "bank_transfer"],
                 }

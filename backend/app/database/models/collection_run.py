@@ -26,3 +26,4 @@ class CollectionRunModel(Base):
     report_html_path: Mapped[Optional[str]] = mapped_column(String(512), nullable=True)
     report_md_path: Mapped[Optional[str]] = mapped_column(String(512), nullable=True)
     summary_json: Mapped[Optional[dict]] = mapped_column(JSON, nullable=True)
+

@@ -18,3 +18,4 @@ def update_profile(profile_data: Dict[str, Any]):
     with open(profile_path, "w", encoding="utf-8") as f:
         yaml.safe_dump(profile_data, f, sort_keys=False)
     return config_manager.get_profile(reload=True)
+

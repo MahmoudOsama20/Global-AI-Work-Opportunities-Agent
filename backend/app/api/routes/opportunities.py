@@ -1,4 +1,5 @@
 from typing import List, Optional
+from datetime import datetime
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.orm import Session
 from app.api.dependencies import get_db
@@ -18,8 +19,12 @@ def list_opportunities(
     search_query: Optional[str] = None,
     payment_model: Optional[str] = None,
     recommendation: Optional[str] = None,
-    limit: int = Query(50, ge=1, le=200),
-    offset: int = Query(0, ge=0),
+    freshness: Optional[str] = None,
+    posted_from: Optional[datetime] = None,
+    posted_to: Optional[datetime] = None,
+    include_unknown_dates: bool = True,
+    limit: int = 50,
+    offset: int = 0,
     db: Session = Depends(get_db),
 ):
     """Search and filter normalized opportunities."""
@@ -34,6 +39,10 @@ def list_opportunities(
         search_query=search_query,
         payment_model=payment_model,
         recommendation=recommendation,
+        freshness=freshness,
+        posted_from=posted_from,
+        posted_to=posted_to,
+        include_unknown_dates=include_unknown_dates,
         limit=limit,
         offset=offset,
     )
@@ -59,3 +68,4 @@ def get_opportunity(opp_id: str, db: Session = Depends(get_db)):
     if not item:
         raise HTTPException(status_code=404, detail="Opportunity not found")
     return OpportunityRead.model_validate(item)
+
