@@ -37,3 +37,8 @@ def on_startup():
 @app.get("/api/health")
 def health_endpoint():
     return {"status": "ok", "service": "Global AI Opportunities Agent"}
+
+# Mount built frontend SPA if available (after API routes)
+FRONTEND_DIST = Path(__file__).resolve().parent.parent.parent / "frontend" / "dist"
+if FRONTEND_DIST.exists():
+    app.mount("/", StaticFiles(directory=str(FRONTEND_DIST), html=True), name="static")
