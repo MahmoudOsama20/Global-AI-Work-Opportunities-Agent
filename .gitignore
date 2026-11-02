@@ -1,0 +1,47 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Caches and virtual environments
+.venv/
+venv/
+ENV/
+.uv-cache/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Node.js
+node_modules/
+dist/
+.vite/
+
+# Environment and sensitive files
+.env
+*.env.local
+*.pem
+*.key
+*.token
+
+# Browser automation user data & sessions
+browser_profiles/
+user_data/
+playwright_state/
+*.session
+
+# Local data & logs & databases
+data/database/*.db
+data/database/*.sqlite
+data/logs/*.log
+data/reports/*
+!data/reports/.gitkeep
+!data/database/.gitkeep
+!data/logs/.gitkeep
+
+# OS generated
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store

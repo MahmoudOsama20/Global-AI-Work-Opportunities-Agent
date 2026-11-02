@@ -1,0 +1,200 @@
+name: "Senior AI & Machine Learning Engineer"
+primary_location:
+  country: "Egypt"
+  country_code: "EG"
+  city: "Cairo"
+  timezone: "Africa/Cairo"
+  remote_only: true
+
+payment_preferences:
+  currencies:
+    - "USD"
+    - "EUR"
+    - "GBP"
+  supported_methods_in_location:
+    - "payoneer"
+    - "wire_transfer"
+    - "bank_transfer"
+    - "wise"
+    - "paypal"
+    - "direct_deposit"
+  minimum_hourly_usd: 15.0
+  minimum_fixed_project_usd: 100.0
+
+priority_order:
+  - "llm_and_agents"
+  - "computer_vision_and_vlms"
+  - "nlp_and_deep_learning"
+  - "ai_evaluation_and_training"
+  - "mlops_and_deployment"
+  - "infrastructure_and_containers"
+  - "general_machine_learning"
+
+domains:
+  computer_vision:
+    name: "Computer Vision"
+    priority: 2
+    skills:
+      - "Computer Vision Engineering"
+      - "Computer Vision"
+      - "Image Classification"
+      - "Object Detection"
+      - "YOLO"
+      - "Instance Segmentation"
+      - "Semantic Segmentation"
+      - "U-Net"
+      - "DeepLabV3+"
+      - "OpenCV"
+      - "Image Processing"
+      - "Video Understanding"
+      - "Vision Transformers"
+      - "ViT"
+      - "Visual Question Answering"
+      - "VQA"
+      - "Vision-Language Models"
+      - "VLM"
+      - "Multimodal AI"
+      - "Image and Video Analysis"
+      - "Visual Representation Learning"
+
+  large_language_models:
+    name: "Large Language Models"
+    priority: 1
+    skills:
+      - "LLM Engineering"
+      - "LLM Applications"
+      - "Prompt Engineering"
+      - "Retrieval-Augmented Generation"
+      - "RAG"
+      - "Advanced RAG"
+      - "Vector Databases"
+      - "Embeddings"
+      - "Semantic Search"
+      - "LLM Evaluation"
+      - "LLM Fine-tuning"
+      - "Parameter-Efficient Fine-tuning"
+      - "PEFT"
+      - "LoRA"
+      - "QLoRA"
+      - "Hugging Face"
+      - "Transformer Architectures"
+      - "Model Quantization"
+      - "Model Optimization"
+      - "Inference Optimization"
+
+  natural_language_processing:
+    name: "Natural Language Processing"
+    priority: 3
+    skills:
+      - "NLP Engineering"
+      - "NLP"
+      - "Text Classification"
+      - "Named Entity Recognition"
+      - "NER"
+      - "Sentiment Analysis"
+      - "Information Extraction"
+      - "Text Embeddings"
+      - "Semantic Similarity"
+      - "Tokenization"
+      - "Transformer-based NLP"
+      - "Multilingual NLP"
+      - "Arabic NLP"
+      - "English NLP"
+
+  ai_agents:
+    name: "AI Agents"
+    priority: 1
+    skills:
+      - "Agentic AI"
+      - "AI Agent Development"
+      - "Multi-Agent Systems"
+      - "Tool Calling"
+      - "Function Calling"
+      - "Agent Orchestration"
+      - "LangChain"
+      - "LangGraph"
+      - "LlamaIndex"
+      - "Agent Memory"
+      - "Planning and Reasoning"
+      - "Agent Evaluation"
+      - "Autonomous AI Applications"
+
+  deep_learning_and_ml:
+    name: "Deep Learning and Machine Learning"
+    priority: 3
+    skills:
+      - "PyTorch"
+      - "TensorFlow"
+      - "Keras"
+      - "Scikit-learn"
+      - "CNNs"
+      - "RNNs"
+      - "LSTMs"
+      - "Transformers"
+      - "Generative AI"
+      - "Diffusion Models"
+      - "GANs"
+      - "VAEs"
+      - "Model Training"
+      - "Model Evaluation"
+      - "Model Fine-tuning"
+      - "Feature Engineering"
+      - "Classical Machine Learning"
+
+  mlops_and_deployment:
+    name: "AI Deployment and MLOps"
+    priority: 5
+    skills:
+      - "Model Deployment"
+      - "Production ML"
+      - "ML APIs"
+      - "FastAPI"
+      - "REST APIs"
+      - "Docker"
+      - "Docker Compose"
+      - "Kubernetes"
+      - "K8s"
+      - "Helm"
+      - "MLflow"
+      - "Model Serving"
+      - "ONNX"
+      - "vLLM"
+      - "Triton"
+      - "GPU Inference"
+      - "Cloud Deployment"
+      - "AWS"
+      - "GCP"
+      - "CI/CD for ML"
+      - "Monitoring and Observability"
+      - "Model Optimization"
+      - "Edge AI"
+
+  ai_training_and_evaluation:
+    name: "AI Training and Evaluation"
+    priority: 4
+    skills:
+      - "LLM Response Evaluation"
+      - "AI Model Evaluation"
+      - "AI Output Quality Review"
+      - "Coding Evaluation"
+      - "AI Benchmark Creation"
+      - "RLHF-related tasks"
+      - "RLHF"
+      - "Human Feedback for LLMs"
+      - "AI Red Teaming"
+      - "Prompt Quality Evaluation"
+      - "Model Comparison"
+      - "AI Reasoning Evaluation"
+      - "Technical AI Data Annotation"
+      - "Image Annotation"
+      - "Video Annotation"
+      - "Computer Vision Dataset Curation"
+      - "AI Training Data Quality Assessment"
+      - "Code Generation Evaluation"
+      - "Technical Content Evaluation"
+
+languages:
+  - language: "English"
+    proficiency: "Professional / Fluent"
+  - language: "Arabic"
+    proficiency: "Native"

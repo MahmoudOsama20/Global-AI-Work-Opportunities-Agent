@@ -1,0 +1,60 @@
+# 100-Point Scoring Model Configuration
+
+weights:
+  technical_skill_match: 30
+  experience_match: 20
+  opportunity_type_preference: 10
+  egypt_eligibility: 15
+  compensation_attractiveness: 10
+  project_quality_and_clarity: 10
+  application_feasibility: 5
+
+thresholds:
+  excellent: 90
+  strong: 80
+  good: 70
+  moderate: 60
+
+rating_categories:
+  excellent:
+    min_score: 90
+    max_score: 100
+    label: "Excellent Match"
+    recommended_action: "Apply Immediately"
+  strong:
+    min_score: 80
+    max_score: 89
+    label: "Strong Match"
+    recommended_action: "High Priority Application"
+  good:
+    min_score: 70
+    max_score: 79
+    label: "Good Match"
+    recommended_action: "Consider Application"
+  moderate:
+    min_score: 60
+    max_score: 69
+    label: "Moderate Match"
+    recommended_action: "Review Details Before Applying"
+  low:
+    min_score: 0
+    max_score: 59
+    label: "Low Match"
+    recommended_action: "Not Recommended"
+
+eligibility_rules:
+  # Ineligible opportunities cannot be recommended, even with high technical score
+  ineligible_gate_override: true
+  ineligible_status_label: "Not Eligible in Egypt"
+  unverified_status_label: "Verification Required"
+  likely_eligible_status_label: "Likely Eligible (Worldwide)"
+  eligible_status_label: "Fully Verified Eligible"
+
+domain_priority_multiplier:
+  llm_and_agents: 1.15
+  computer_vision_and_vlms: 1.10
+  nlp_and_deep_learning: 1.05
+  ai_evaluation_and_training: 1.05
+  mlops_and_deployment: 1.00
+  infrastructure_and_containers: 0.95
+  general_machine_learning: 0.90

@@ -1,0 +1,7 @@
+pyproject.toml
+app/__init__.py
+global_ai_opportunities_agent.egg-info/PKG-INFO
+global_ai_opportunities_agent.egg-info/SOURCES.txt
+global_ai_opportunities_agent.egg-info/dependency_links.txt
+global_ai_opportunities_agent.egg-info/requires.txt
+global_ai_opportunities_agent.egg-info/top_level.txt

@@ -1,0 +1,170 @@
+# Initial Sources Registry Seed Configuration
+
+sources:
+  # AI Training and Evaluation Platforms
+  - id: "outlier"
+    name: "Outlier AI"
+    category: "ai_training_and_evaluation"
+    official_website: "https://outlier.ai"
+    careers_url: "https://boards.greenhouse.io/outlierai"
+    collection_method: "public_web"
+    status: "verified"
+    requires_auth: false
+    supports_account_inspection: true
+    supports_egypt: "likely"
+    payment_methods: ["paypal", "airtm"]
+    enabled: true
+    description: "AI training, coding evaluation, and RLHF platform."
+
+  - id: "dataannotation"
+    name: "DataAnnotation Tech"
+    category: "ai_training_and_evaluation"
+    official_website: "https://www.dataannotation.tech"
+    careers_url: "https://www.dataannotation.tech"
+    collection_method: "public_web"
+    status: "verified"
+    requires_auth: false
+    supports_egypt: "unverified"
+    payment_methods: ["paypal"]
+    enabled: true
+    description: "Paid AI evaluation, coding benchmarks, and reasoning evaluation."
+
+  - id: "alignerr"
+    name: "Alignerr"
+    category: "ai_training_and_evaluation"
+    official_website: "https://alignerr.com"
+    careers_url: "https://boards.greenhouse.io/alignerr"
+    collection_method: "public_web"
+    status: "verified"
+    requires_auth: false
+    supports_egypt: "likely"
+    payment_methods: ["deel", "payoneer", "bank_transfer"]
+    enabled: true
+    description: "Expert AI alignment, prompt evaluation, and code quality."
+
+  - id: "oneforma"
+    name: "OneForma (Centific)"
+    category: "ai_data_and_annotation"
+    official_website: "https://www.oneforma.com"
+    careers_url: "https://jobs.oneforma.com"
+    collection_method: "public_web"
+    status: "verified"
+    requires_auth: false
+    supports_egypt: "verified"
+    payment_methods: ["payoneer", "paypal", "wire_transfer"]
+    enabled: true
+    description: "AI data collection, annotation, and model evaluation with strong Egypt support."
+
+  - id: "appen"
+    name: "Appen CrowdGen"
+    category: "ai_data_and_annotation"
+    official_website: "https://crowdgen.com"
+    careers_url: "https://crowdgen.com"
+    collection_method: "public_web"
+    status: "verified"
+    requires_auth: false
+    supports_egypt: "verified"
+    payment_methods: ["payoneer", "paypal"]
+    enabled: true
+    description: "CrowdGen AI training, dataset collection, and model validation."
+
+  - id: "telus"
+    name: "TELUS Digital AI Community"
+    category: "ai_data_and_annotation"
+    official_website: "https://www.telusinternational.ai"
+    careers_url: "https://www.telusinternational.ai/community/roles"
+    collection_method: "public_web"
+    status: "verified"
+    requires_auth: false
+    supports_egypt: "verified"
+    payment_methods: ["bank_transfer", "payoneer"]
+    enabled: true
+    description: "Global AI community evaluation, translation, and computer vision tasks."
+
+  - id: "remotive"
+    name: "Remotive"
+    category: "remote_job_board"
+    official_website: "https://remotive.com"
+    api_url: "https://remotive.com/api/remote-jobs"
+    collection_method: "api"
+    status: "verified"
+    requires_auth: false
+    supports_egypt: "likely"
+    payment_methods: ["wire_transfer", "wise", "contract"]
+    enabled: true
+    description: "Curated remote tech, AI, and software engineering roles."
+
+  - id: "remoteok"
+    name: "Remote OK"
+    category: "remote_job_board"
+    official_website: "https://remoteok.com"
+    api_url: "https://remoteok.com/api"
+    collection_method: "api"
+    status: "verified"
+    requires_auth: false
+    supports_egypt: "likely"
+    payment_methods: ["wire_transfer", "wise", "crypto"]
+    enabled: true
+    description: "Global remote engineering and AI job board with public API."
+
+  - id: "himalayas"
+    name: "Himalayas"
+    category: "remote_job_board"
+    official_website: "https://himalayas.app"
+    api_url: "https://himalayas.app/jobs/api"
+    collection_method: "api"
+    status: "verified"
+    requires_auth: false
+    supports_egypt: "likely"
+    payment_methods: ["wire_transfer", "wise"]
+    enabled: true
+    description: "Comprehensive remote jobs database with explicit country eligibility filters."
+
+  - id: "weworkremotely"
+    name: "We Work Remotely"
+    category: "remote_job_board"
+    official_website: "https://weworkremotely.com"
+    rss_url: "https://weworkremotely.com/categories/remote-programming-jobs.rss"
+    collection_method: "rss"
+    status: "verified"
+    requires_auth: false
+    supports_egypt: "likely"
+    payment_methods: ["wire_transfer", "wise"]
+    enabled: true
+    description: "Longest-standing remote work community with RSS feeds."
+
+  - id: "mostaql"
+    name: "Mostaql"
+    category: "freelance_marketplace"
+    official_website: "https://mostaql.com"
+    collection_method: "public_web"
+    status: "verified"
+    requires_auth: false
+    supports_egypt: "verified"
+    payment_methods: ["paypal", "wire_transfer", "local_cards"]
+    enabled: true
+    description: "Leading Arab world freelance platform with full Egyptian eligibility."
+
+  - id: "upwork"
+    name: "Upwork"
+    category: "freelance_marketplace"
+    official_website: "https://www.upwork.com"
+    collection_method: "api"
+    status: "restricted"
+    requires_auth: true
+    supports_egypt: "verified"
+    payment_methods: ["payoneer", "wire_transfer", "direct_deposit", "paypal"]
+    enabled: false
+    description: "Global freelance platform (requires client OAuth or approved developer key)."
+
+  - id: "turing"
+    name: "Turing"
+    category: "ai_expert_network"
+    official_website: "https://www.turing.com"
+    collection_method: "public_web"
+    status: "verified"
+    requires_auth: false
+    supports_egypt: "verified"
+    payment_methods: ["wire_transfer", "payoneer"]
+    enabled: true
+    description: "AI-vetted engineering and technical talent network."
