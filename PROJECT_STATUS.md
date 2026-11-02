@@ -11,8 +11,8 @@
 | Phase | Description | Status | Verification & Tests |
 |---|---|---|---|
 | **Phase 0** | Environment Inspection & Architecture Planning | **COMPLETED** | Verified Python 3.12, uv, Node.js 24, Git, storage limits; produced architecture, security, database, and connector specs. |
-| **Phase 1** | Project Foundation & Configuration | **IN PROGRESS** | Configuration files created. Setting up backend package, SQLAlchemy models, logging, CLI base, and foundational tests. |
-| **Phase 2** | Core Opportunity Intelligence Pipeline | PENDING | Normalization, domain classification, exclusions (speech/automation), eligibility gate, deduplication, 100-pt scoring. |
+| **Phase 1** | Project Foundation & Configuration | **COMPLETED** | Configuration files created; models, repositories, schemas, logging, security, CLI init-db tested and verified (9/9 tests pass). |
+| **Phase 2** | Core Opportunity Intelligence Pipeline | **IN PROGRESS** | Normalization, domain classification, exclusions (speech/automation), eligibility gate, deduplication, 100-pt scoring. |
 | **Phase 3** | Initial Source Connectors | PENDING | Remotive, Himalayas, RemoteOK, WWR, Outlier (public + account-specific browser), OneForma, Alignerr. |
 | **Phase 4** | Source Discovery Engine | PENDING | Search provider abstraction, query generator, legitimacy validator, discovery registry. |
 | **Phase 5** | Dashboard (React + TypeScript) | PENDING | Overview, Opportunities Explorer, Details modal, Sources Explorer, Discovery Center, Profile, Reports history. |
