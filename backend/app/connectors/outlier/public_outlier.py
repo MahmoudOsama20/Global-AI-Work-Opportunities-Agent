@@ -14,7 +14,7 @@ class OutlierPublicConnector(BaseConnector):
     category = "ai_training_and_evaluation"
     supports_egypt = "likely"
     official_website = "https://outlier.ai"
-    BOARD_API_URL = "https://boards-api.greenhouse.io/v1/boards/outlierai/jobs"
+    BOARD_API_URL = "https://boards-api.greenhouse.io/v1/boards/scaleai/jobs"
 
     def health_check(self) -> HealthCheckResult:
         start_time = time.time()
@@ -67,12 +67,12 @@ class OutlierPublicConnector(BaseConnector):
 
                 raw_item = {
                     "title": job.get("title"),
-                    "company": "Outlier AI",
+                    "company": "Scale AI / Outlier",
                     "description": clean_desc,
-                    "url": job.get("absolute_url") or f"https://boards.greenhouse.io/outlierai/jobs/{job.get('id')}",
+                    "url": job.get("absolute_url") or f"https://boards.greenhouse.io/scaleai/jobs/{job.get('id')}",
                     "location": job.get("location", {}).get("name", "Remote - Global"),
                     "category": "ai_training_and_evaluation",
-                    "payment_methods": ["paypal", "airtm"],
+                    "payment_methods": ["paypal", "airtm", "wire_transfer"],
                 }
                 opp, is_excluded, reason = self.normalizer.normalize(
                     raw_item=raw_item,

@@ -14,7 +14,7 @@ class AlignerrPublicConnector(BaseConnector):
     category = "ai_training_and_evaluation"
     supports_egypt = "likely"
     official_website = "https://alignerr.com"
-    BOARD_API_URL = "https://boards-api.greenhouse.io/v1/boards/alignerr/jobs"
+    BOARD_API_URL = "https://boards-api.greenhouse.io/v1/boards/labelbox/jobs"
 
     def health_check(self) -> HealthCheckResult:
         start_time = time.time()
